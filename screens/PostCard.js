@@ -9,6 +9,8 @@ export default class PostCard extends React.Componennt {
         this.state = {
           fontsLoaded: false,
           light_theme: true,
+          post_id : this.props.post.key,
+          post_data : this.props.post.value
         };
     }
 

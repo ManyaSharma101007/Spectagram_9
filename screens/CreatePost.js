@@ -1,5 +1,5 @@
 import {React} from 'react';
-import {View,Text,Image,ScrollView,TextInput,SafeAreaView} from 'react-native';
+import {View,Text,Image,ScrollView,TextInput,SafeAreaView,Alert} from 'react-native';
 import {DropDownPicker} from 'react-native-dropdown-picker';
 import { RFValue } from 'react-native-responsive-fontsize';
 import {RFValue} from 'react-native-responsive-font-size';
@@ -8,9 +8,41 @@ export default class CreatePost extends React.Componennt {
     constructor(props){
         super(props)
         this.state={
-            dropdownHeight,
-            previewImage,
+            dropdownHeight : 40,
             light_theme : true,
+            preview_image : "image_1",
+        }
+    }
+
+    async addPost(){
+        if(this.state.caption){
+            let postData = {
+                preview_image : this.state.preview_image,
+                caption : this.state.caption,
+                author : firebase.auth().currentUser.displayName,
+                created_on : new Date(),
+                author_uid : firebase.auth().currentUser.uid,
+                profile_image : this.state.profile_image,
+                likes : 0
+            }
+
+            await firebase
+                  .database()
+                  .ref(
+                      "/posts/" + 
+                      Math.random().toString(36).slice(2)
+                  )
+                  .set(postData)
+                  .then(function(snapshot){ });
+                this.props.setUpdateToTrue();
+                this.props.navigation.navigate("Feed")
+        }
+        else{
+            Alert.alert("Error", 
+                        "All fields are required",
+                        [{text : "Ok", onPress : () => console.log("OK Pressed")}],
+                        {cancelable : false}
+                      )
         }
     }
 
