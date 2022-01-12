@@ -2,6 +2,41 @@ import {React} from 'react';
 import {View,Text,Image, SafeAreaView,FlatList,StyleSheet,Platform,StatusBar,RFValue, SafeAreaViewBase} from 'react-native';
 
 export default class Feed extends React.Componennt {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          fontsLoaded: false,
+          light_theme: true,
+          posts: []
+        };
+      }
+
+      fetchPosts = () => {
+        firebase
+          .database()
+          .ref("/posts/")
+          .on(
+            "value",
+            snapshot => {
+              let post = [];
+              if (snapshot.val()) {
+                Object.keys(snapshot.val()).forEach(function (key) {
+                  stories.push({
+                    key: key,
+                    value: snapshot.val()[key]
+                  });
+                });
+              }
+              this.setState({ posts: posts });
+              this.props.setUpdateToFalse();
+            },
+            function (errorObject) {
+              console.log("The read failed: " + errorObject.code);
+            }
+          );
+      };
+
     render() {
         return(
             <View style={styles.container}>
