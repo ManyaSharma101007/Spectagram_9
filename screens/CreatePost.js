@@ -9,13 +9,14 @@ export default class CreatePost extends React.Componennt {
         super(props)
         this.state={
             dropdownHeight,
-            previewImage
+            previewImage,
+            light_theme : true,
         }
     }
 
     render() {
         return(
-            <View style={styles.container}>
+            <View style={this.state.light_theme ? styles.containerLight : styles.container}>
                 <SafeAreaView style={styles.droidSafeArea}/>
                 <View style={styles.appTitle}>
                     <View style={styles.appIcon}>
@@ -125,5 +126,9 @@ const styles = StyleSheet.create({
         borderRadius: RFValue(10),
         marginVertical: RFValue(10),
         resizeMode: "contain"
+    },
+    containerLight: {
+        flex: 1,
+        backgroundColor: "white"
     },
 })

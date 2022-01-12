@@ -3,9 +3,29 @@ import {View,Text,RFValue,StyleSheet} from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default class PostCard extends React.Componennt {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          fontsLoaded: false,
+          light_theme: true,
+        };
+    }
+
+    fetchUser = () => {
+        let theme;
+        firebase
+          .database()
+          .ref("/users/" + firebase.auth().currentUser.uid)
+          .on("value", snapshot => {
+            theme = snapshot.val().current_theme;
+            this.setState({ light_theme: theme === "light" });
+          });
+    };
+
     render() {
         return(
-            <View style={styles.container}>
+            <View style={this.state.light_theme ? styles.containerLight : styles.container}>
                 <View style={styles.cardContainer}>
                     <View style={styles.authorContainer}>
                         <View style={styles.authorImageContainer}>
@@ -71,5 +91,9 @@ const styles = StyleSheet.create({
         fontFamily: "Bubblegum-Sans",
         fontSize: RFValue(18),
         color: "white"
-      },
+    },
+    containerLight: {
+        flex: 1,
+        backgroundColor: "white"
+    },
 })
