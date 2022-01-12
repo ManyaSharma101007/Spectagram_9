@@ -67,4 +67,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: RFValue(10)
     },
+    authorNameText: {
+        fontFamily: "Bubblegum-Sans",
+        fontSize: RFValue(18),
+        color: "white"
+      },
 })

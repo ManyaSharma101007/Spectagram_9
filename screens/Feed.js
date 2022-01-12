@@ -61,5 +61,5 @@ const styles = StyleSheet.create({
     },
     cardContainer : {
         flex : 0.85 
-    }
+    },
 })
